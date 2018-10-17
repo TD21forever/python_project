@@ -6,21 +6,20 @@ import json
 
 
 def get_post_data(word,which_lan):
-	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'}
-	url = "http://fanyi.baidu.com/langdetect"
+	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+	'Cookie': 'BAIDUID=31EE876D957C6276CC8653746906E1F0:FG=1; BIDUPSID=31EE876D957C6276CC8653746906E1F0; PSTM=1539495122; BDORZ=AE84CDB3A529C0F8A2B9DCDD1D18B695; H_PS_PSSID=1423_21106; PSINO=7; delPer=0; ZD_ENTRY=baidu; locale=zh; from_lang_often=%5B%7B%22value%22%3A%22en%22%2C%22text%22%3A%22%u82F1%u8BED%22%7D%2C%7B%22value%22%3A%22zh%22%2C%22text%22%3A%22%u4E2D%u6587%22%7D%5D; to_lang_often=%5B%7B%22value%22%3A%22en%22%2C%22text%22%3A%22%u82F1%u8BED%22%7D%2C%7B%22value%22%3A%22zh%22%2C%22text%22%3A%22%u4E2D%u6587%22%7D%5D; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1; Hm_lvt_afd111fa62852d1f37001d1f980b6800=1539763350,1539763355,1539763371,1539763491; Hm_lpvt_afd111fa62852d1f37001d1f980b6800=1539763491; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=1539763350,1539763355,1539763371,1539763491; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=1539763491'}
+	url = "https://fanyi.baidu.com/langdetect"
 
 	form_data = {
-		'query': word
+		'query': word,
 	}
-	wb_data = requests.post(url,headers= headers,data= form_data)
-	
+	wb_data = requests.post(url,data= form_data,headers= headers)
 	json_data = json.loads(wb_data.text)
 
 	data_from = json_data['lan']
 	# which_lan = input("1--->中文\n"+"2--->英文\n"+"3--->文言文\n"+"4--->阿拉伯语\n"+"5--->德语\n"+"6--->韩语\n"+"7--->泰语\n"+"8--->法语\n"+"您想翻译成那种语言\n")
 
-	to_dict  = {'1':'zh','2':'en','3':'wyw','4':'ara','5':'de','6':"kor","7":"th",'8':'fra'
-}
+	to_dict  = {'1':'zh','2':'en','3':'wyw','4':'ara','5':'de','6':"kor","7":"th",'8':'fra'}
 	post_data  ={
 	'query': word,
 	'from': data_from,
@@ -32,11 +31,10 @@ def get_post_data(word,which_lan):
 
 def get_trans_result(data):
 	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'}
-	url = "http://fanyi.baidu.com/basetrans"
+	url = "https://fanyi.baidu.com/basetrans"
 
 	wb_data = requests.post(url,headers = headers,data =data)
 	json_data = json.loads(wb_data.text)
-
 	trans_result = json_data['trans'][0]['dst']
 	return trans_result
 	
